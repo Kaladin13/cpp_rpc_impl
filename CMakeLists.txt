@@ -1,0 +1,10 @@
+cmake_minimum_required(VERSION 3.23)
+project(rpc_test)
+
+set(CMAKE_CXX_STANDARD 17)
+
+include_directories(
+        "include" "vendor"
+)
+
+add_executable(rpc_test main.cpp src/connectors/client/HttpClientConnector.cpp src/connectors/client/HttpClientConnector.h src/constant/http_constants.h src/connectors/server/HttpServerConnector.cpp src/connectors/server/HttpServerConnector.h src/dto/Arithmetic.cpp src/dto/Arithmetic.h src/service/ArithmeticService.cpp src/service/ArithmeticService.h)
