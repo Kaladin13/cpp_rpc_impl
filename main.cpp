@@ -28,7 +28,7 @@ int main() {
     std::cout << "Starting server listening... " << std::boolalpha << serverConnector.startListening() << std::endl;
 
     // wait for server to start
-    std::this_thread::sleep_for(1s);
+    std::this_thread::sleep_for(50s);
 
     // json-rpc v2 https://www.jsonrpc.org/specification
     jsonrpccxx::JsonRpcClient jsonRpcClient(clientConnector, jsonrpccxx::version::v2);

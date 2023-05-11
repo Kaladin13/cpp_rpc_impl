@@ -1,7 +1,9 @@
-cmake_minimum_required(VERSION 3.23)
+cmake_minimum_required(VERSION 3.18)
 project(rpc_test)
 
 set(CMAKE_CXX_STANDARD 17)
+
+SET(CMAKE_CXX_FLAGS -pthread)
 
 include_directories(
         "include" "vendor"
