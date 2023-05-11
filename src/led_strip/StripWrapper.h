@@ -24,7 +24,7 @@ class StripWrapper {
 
     void ctrl_c_handler(int signum);
 
-    void setup_handlers();
+//    void setup_handlers();
 
 public:
     StripWrapper(int width, int gpioPin);

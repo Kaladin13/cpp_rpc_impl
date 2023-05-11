@@ -58,15 +58,15 @@ void StripWrapper::ctrl_c_handler(int signum) {
     is_running = false;
 }
 
-void StripWrapper::setup_handlers() {
-    struct sigaction sa =
-            {
-                    .sa_handler = ctrl_c_handler,
-            };
-
-    sigaction(SIGINT, &sa, nullptr);
-    sigaction(SIGTERM, &sa, nullptr);
-}
+//void StripWrapper::setup_handlers() {
+//    struct sigaction sa =
+//            {
+//                    .sa_handler = ctrl_c_handler,
+//            };
+//
+//    sigaction(SIGINT, &sa, nullptr);
+//    sigaction(SIGTERM, &sa, nullptr);
+//}
 
 void StripWrapper::init() {
     ws2811_led_t status;
