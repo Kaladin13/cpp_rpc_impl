@@ -5,6 +5,7 @@
 #include "src/connectors/server/HttpServerConnector.h"
 #include "src/constant/http_constants.h"
 #include "rpi_ws281x/ws2811.h"
+#include "src/led_strip/StripWrapper.h"
 #include <iostream>
 
 using namespace std::chrono_literals;
@@ -12,7 +13,11 @@ using namespace std::chrono_literals;
 int main() {
     jsonrpccxx::JsonRpc2Server jsonRpcServer;
 
-    smart_aquarium_rpc::ArithmeticService arithmeticService;
+    StripWrapper strip = StripWrapper(60, 18);
+    strip.init();
+
+
+    smart_aquarium_rpc::ArithmeticService arithmeticService(strip);
 
     bool added = jsonRpcServer.Add("sum", jsonrpccxx::GetHandle(&smart_aquarium_rpc::ArithmeticService::sum,
                                                                 arithmeticService),
