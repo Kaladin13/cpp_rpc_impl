@@ -12,7 +12,7 @@ namespace smart_aquarium_rpc {
 
     inline static const std::string RPC_ENDPOINT = "/json-rpc";
 
-    inline static const std::string HOST = "localhost";
+    inline static const std::string HOST = "0.0.0.0";
 
     enum class RPC_STATUSES {
         SUCCESS_STATUS = 200,
