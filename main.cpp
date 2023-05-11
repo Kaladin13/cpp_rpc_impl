@@ -4,13 +4,12 @@
 #include "src/connectors/client/HttpClientConnector.h"
 #include "src/connectors/server/HttpServerConnector.h"
 #include "src/constant/http_constants.h"
+#include "rpi_ws281x/ws2811.h"
 #include <iostream>
 
 using namespace std::chrono_literals;
 
 int main() {
-    std::cout << "Hello, World!" << std::endl;
-
     jsonrpccxx::JsonRpc2Server jsonRpcServer;
 
     smart_aquarium_rpc::ArithmeticService arithmeticService;
@@ -40,7 +39,7 @@ int main() {
 
     int result = jsonRpcClient.CallMethod<int>(1, "sum", {expression});
 
-    std::cout << "result: " << result << std::endl;
+//    std::cout << "result: " << result << std::endl;
 
     assert(result == (expression.right + expression.left));
 
