@@ -35,9 +35,7 @@ StripWrapper::StripWrapper(int width, int gpioPin) : width(width), gpio_pin(gpio
                     },
     };
 
-    matrix = new ws2811_led_t(sizeof(ws2811_led_t) * width);
-
-    setup_handlers();
+    matrix = new ws2811_led_t(sizeof(ws2811_led_t) * width);    
 }
 
 void StripWrapper::matrix_render() {
