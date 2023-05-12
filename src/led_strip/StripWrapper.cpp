@@ -7,8 +7,6 @@
 #include "StripWrapper.h"
 #include "led_colors.h"
 
-#define ARRAY_SIZE(stuff)       (sizeof(stuff) / sizeof(stuff[0]))
-
 StripWrapper::StripWrapper(int width, int gpioPin) : width(width), gpio_pin(gpioPin) {
     led_string = {
             .freq = WS2811_TARGET_FREQ,
@@ -33,58 +31,81 @@ StripWrapper::StripWrapper(int width, int gpioPin) : width(width), gpio_pin(gpio
                     },
     };
 
-    matrix = new ws2811_led_t(sizeof(ws2811_led_t) * width);
-}
-
-void StripWrapper::matrix_render() {
-    for (int x = 0; x < width; x++) {
-        led_string.channel[0].leds[x] = matrix[x];
-    }
-
-}
-
-void StripWrapper::matrix_clear() {
-    for (int i = 0; i < width; ++i) {
-        matrix[i] = LED_COLORS::BLACK;
-    }
-}
-
-void StripWrapper::ctrl_c_handler(int signum) {
-    (void) (signum);
     is_running = false;
 }
 
-//void StripWrapper::setup_handlers() {
-//    struct sigaction sa =
-//            {
-//                    .sa_handler = ctrl_c_handler,
-//            };
-//
-//    sigaction(SIGINT, &sa, nullptr);
-//    sigaction(SIGTERM, &sa, nullptr);
-//}
-
 void StripWrapper::init() {
-    ws2811_led_t status;
+    ws2811_return_t status;
 
     status = ws2811_init(&led_string);
 
     if (status != WS2811_SUCCESS) {
         fprintf(stderr, "ws2811_init failed: %s\n",
-                ws2811_get_return_t_str(static_cast<const ws2811_return_t>(status)));
+                ws2811_get_return_t_str(status));
         exit(status);
     }
+
+    is_running = true;
 }
 
 void StripWrapper::red() {
     for (int i = 0; i < width; ++i) {
-        matrix[i] = LED_COLORS::RED;
+        led_string.channel[0].leds[i] = LED_COLORS::RED;
     }
 
-    matrix_render();
     ws2811_render(&led_string);
 }
 
+bool StripWrapper::off() {
+    if (is_running) {
+        for (int i = 0; i < width; ++i) {
+            led_string.channel[0].leds[i] = LED_COLORS::BLACK;
+        }
+
+        ws2811_return_t res = ws2811_render(&led_string);
+
+        if (res != WS2811_SUCCESS) {
+            fprintf(stderr, "ws2811_render failed: %s\n", ws2811_get_return_t_str(res));
+            exit(res);
+        }
+
+        ws2811_fini(&led_string);
+
+        is_running = false;
+    }
+
+    return true;
+}
+
+void StripWrapper::purple() {
+    for (int i = 0; i < width; ++i) {
+        led_string.channel[0].leds[i] = LED_COLORS::PURPLE;
+    }
+}
+
+void StripWrapper::orange() {
+    for (int i = 0; i < width; ++i) {
+        led_string.channel[0].leds[i] = LED_COLORS::ORANGE;
+    }
+}
+
+bool StripWrapper::custom(LED_COLORS color) {
+    if (!is_running) {
+        init();
+    }
+
+    for (int i = 0; i < width; ++i) {
+        led_string.channel[0].leds[i] = color;
+    }
+
+    ws2811_return_t res = ws2811_render(&led_string);
+
+    return res == WS2811_SUCCESS;
+}
+
+StripWrapper::~StripWrapper() {
+    off();
+}
 
 
 

@@ -12,6 +12,6 @@ include_directories(
 add_executable(rpc_test main.cpp src/connectors/client/HttpClientConnector.cpp
         src/connectors/client/HttpClientConnector.h src/constant/http_constants.h
         src/connectors/server/HttpServerConnector.cpp src/connectors/server/HttpServerConnector.h
-        src/dto/Arithmetic.cpp src/dto/Arithmetic.h src/service/ArithmeticService.cpp src/service/ArithmeticService.h src/led_strip/StripWrapper.cpp src/led_strip/StripWrapper.h src/led_strip/led_colors.h)
+        src/dto/Arithmetic.cpp src/dto/Arithmetic.h src/service/ArithmeticService.cpp src/service/ArithmeticService.h src/led_strip/StripWrapper.cpp src/led_strip/StripWrapper.h src/led_strip/led_colors.h src/service/LedService.cpp src/service/LedService.h src/dto/LedColor.h)
 
 target_link_libraries(rpc_test ${CMAKE_SOURCE_DIR}/libws2811.a)

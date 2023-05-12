@@ -7,6 +7,7 @@
 
 
 #include "rpi_ws281x/ws2811.h"
+#include "led_colors.h"
 
 class StripWrapper {
     const int width;
@@ -14,23 +15,25 @@ class StripWrapper {
     const int gpio_pin;
 
     ws2811_t led_string;
-    ws2811_led_t *matrix;
 
     bool is_running;
-
-    void matrix_render();
-
-    void matrix_clear();
-
-    void ctrl_c_handler(int signum);
-
-//    void setup_handlers();
 
 public:
     StripWrapper(int width, int gpioPin);
 
+    virtual ~StripWrapper();
+
     void init();
+
     void red();
+
+    void purple();
+
+    void orange();
+
+    bool custom(LED_COLORS color);
+
+    bool off();
 };
 
 

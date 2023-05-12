@@ -4,8 +4,8 @@
 #include "src/connectors/client/HttpClientConnector.h"
 #include "src/connectors/server/HttpServerConnector.h"
 #include "src/constant/http_constants.h"
-#include "rpi_ws281x/ws2811.h"
 #include "src/led_strip/StripWrapper.h"
+#include "src/service/LedService.h"
 #include <iostream>
 
 using namespace std::chrono_literals;
@@ -14,16 +14,14 @@ int main() {
     jsonrpccxx::JsonRpc2Server jsonRpcServer;
 
     StripWrapper strip = StripWrapper(60, 18);
-    strip.init();
 
+    LedService ledService(strip);
 
-    smart_aquarium_rpc::ArithmeticService arithmeticService(strip);
+    jsonRpcServer.Add("changeColor", jsonrpccxx::GetHandle(&LedService::changeColor,
+                                                           ledService), {"ledColor"});
 
-    bool added = jsonRpcServer.Add("sum", jsonrpccxx::GetHandle(&smart_aquarium_rpc::ArithmeticService::sum,
-                                                                arithmeticService),
-                                   {"expression"});
-
-    assert(added);
+    jsonRpcServer.Add("turnOff", jsonrpccxx::GetHandle(&LedService::turnOff,
+                                                       ledService));
 
     smart_aquarium_rpc::HttpServerConnector serverConnector(jsonRpcServer, 8083);
 
@@ -32,21 +30,18 @@ int main() {
     std::cout << "Starting server listening... " << std::boolalpha << serverConnector.startListening() << std::endl;
 
     // wait for server to start
-    std::this_thread::sleep_for(50s);
+    std::this_thread::sleep_for(10s);
 
     // json-rpc v2 https://www.jsonrpc.org/specification
     jsonrpccxx::JsonRpcClient jsonRpcClient(clientConnector, jsonrpccxx::version::v2);
 
-    smart_aquarium_rpc::Arithmetic expression;
 
-    expression.left = 767;
-    expression.right = 721;
+    LedColor ledColor;
+    ledColor.colorName = "red";
 
-    int result = jsonRpcClient.CallMethod<int>(1, "sum", {expression});
+//    bool result = jsonRpcClient.CallMethod<bool>(1, "changeColor", {ledColor});
 
 //    std::cout << "result: " << result << std::endl;
-
-    assert(result == (expression.right + expression.left));
 
     return 0;
 }
