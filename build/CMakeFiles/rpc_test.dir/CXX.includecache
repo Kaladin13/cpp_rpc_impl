@@ -1,0 +1,42 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+../vendor/rpi_ws281x/pwm.h
+stdint.h
+-
+
+../vendor/rpi_ws281x/rpihw.h
+stdint.h
+-
+
+../vendor/rpi_ws281x/ws2811.h
+stdint.h
+-
+rpihw.h
+../vendor/rpi_ws281x/rpihw.h
+pwm.h
+../vendor/rpi_ws281x/pwm.h
+
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/StripWrapper.cpp
+cstdio
+-
+cstdlib
+-
+StripWrapper.h
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/StripWrapper.h
+led_colors.h
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/led_colors.h
+
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/StripWrapper.h
+rpi_ws281x/ws2811.h
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/rpi_ws281x/ws2811.h
+
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/led_colors.h
+rpi_ws281x/ws2811.h
+/home/pi/rpc_test/cpp_rpc_impl/src/led_strip/rpi_ws281x/ws2811.h
+

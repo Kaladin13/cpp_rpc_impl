@@ -19,7 +19,15 @@ bool LedService::changeColor(const LedColor& ledColor) {
         color = LED_COLORS::GREEN;
     } else if (ledColor.colorName == "purple") {
         color = LED_COLORS::PURPLE;
-    } else {
+     } else if (ledColor.colorName == "yellow") {
+        color = LED_COLORS::YELLOW;
+     } else if (ledColor.colorName == "pink") {
+        color = LED_COLORS::PINK;
+     } else if (ledColor.colorName == "blue") {
+        color = LED_COLORS::BLUE;
+     } else if (ledColor.colorName == "white") {
+        color = LED_COLORS::WHITE;
+     } else {
         return false;
     }
 
